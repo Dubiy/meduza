@@ -3,16 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <title>Meduza</title>
+    <script src="meduza.js"></script>
+    <script src="meduza-async.js"></script>
 </head>
 <body>
     <canvas id="canvas" width="1920" height="1080"></canvas>
 
-    <script src="meduza.js"></script>
+    <input id="range"
+           type="range"
+           min="0"
+           max="100"
+           name="range"
+           value="50">
 
     <script>
         window.addEventListener('load', () => {
-            new Meduza(document.getElementById('canvas'))
-        })
+            let value = 0;
+            const range = document.getElementById('range');
+            function render() {
+                value -= 1;
+                if (value < -100) {
+                    value = 100;
+                }
+                range.value = Math.abs(value);
+                window.requestAnimationFrame(render);
+            }
+            render();
+
+            this.setTimeout(() => {
+                new Meduza(document.getElementById('canvas'));
+                // new MeduzaAsync(document.getElementById('canvas'));
+            }, 1000);
+        });
     </script>
+
+    <style>
+        canvas {
+            /*opacity: 0.05;*/
+        }
+
+        input[type=range] {
+            width: 100%;
+            left: 0;
+            top: 0;
+            display: block;
+            position: fixed;
+        }
+    </style>
 </body>
 </html>
